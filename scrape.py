@@ -8,6 +8,7 @@ all_recipes_total_pages = 0
 def scrape_all_recipes_vegetarian():
 
 	recipes = []
+	ingredients = []
 
 	for x in range (0, all_recipes_total_pages+1):
 		page = requests.get(all_recipes_base_url+str(x))
@@ -35,12 +36,14 @@ def scrape_all_recipes_vegetarian():
 		ingredient_list = soup.find_all('ul', class_='checklist')
 
 		for ingredient in ingredient_list:
-			print(ingredient)
+			# print(ingredient)
 			items = ingredient.find_all('span', class_='recipe-ingred_txt')
-			print(items)
+			# print(items)
 			for item in items:
-				print(item.get_text())
+				if x is not None and x != 'Add all ingredients to list' and x != '':
+					ingredients.append(item.get_text())
 
+	print(ingredients)
 
 def check_status_code(page):
 	if page.status_code is not 200:
