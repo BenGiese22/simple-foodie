@@ -23,7 +23,6 @@ def scrape_all_recipes_vegetarian():
 			recipes.append(article.div.a.get('href'))
 
 
-	recipes = recipes[1:2]
 	print(recipes)
 
 	for recipe in recipes:
@@ -40,8 +39,9 @@ def scrape_all_recipes_vegetarian():
 			items = ingredient.find_all('span', class_='recipe-ingred_txt')
 			# print(items)
 			for item in items:
-				if x is not None and x != 'Add all ingredients to list' and x != '':
-					ingredients.append(item.get_text())
+				item_text = item.get_text()
+				if item_text is not None and item_text != 'Add all ingredients to list' and item_text != '':
+					ingredients.append(item_text)
 
 	print(ingredients)
 
