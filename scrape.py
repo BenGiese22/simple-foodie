@@ -26,7 +26,11 @@ def scrape_all_recipes_vegetarian():
 
     #print(links)
 
-    links = links[0:1]
+    #links = links[0:1]
+
+    # Got nothing for https://www.allrecipes.com/recipe/244973/summer-bounty-pasta/
+
+    # Got Watch Now https://www.allrecipes.com/recipe/19368/chucks-favorite-mac-and-cheese/
 
     for link in links:
         # init lists
@@ -51,10 +55,13 @@ def scrape_all_recipes_vegetarian():
         
         for direction in direction_list:
             direction_text = direction.get_text().rstrip()
+            if 'Watch Now' in direction_text:
+                direction_text.replace('Watch Now', '').rstrip()
             directions.append(direction_text)
 
         while directions.count('') > 0:
             directions.remove('')
+
 
         # print('\n----------')
         # print(ingredients)
@@ -66,7 +73,9 @@ def scrape_all_recipes_vegetarian():
     # print(recipes)
 
     for recipe in recipes:
+        print('---------------------')
         print(recipe.to_string())
+        print('\n\n')
 
 
 
