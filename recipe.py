@@ -7,15 +7,17 @@ class Recipe:
     ingredients = None
     directions = None
 
-    def __init__(self, link, ingredients, directions):
-        if(link is not None):
+    def __init__(self, link, title, ingredients, directions):
+        if link is not None:
             self.link = link
-            self.title = self.get_title_from_href(link)
 
-        if(ingredients is not None):
+        if title is not None:
+            self.title = title
+
+        if ingredients is not None:
             self.ingredients = ingredients
         
-        if(directions is not None):
+        if directions is not None:
             self.directions = directions
 
     def to_string(self):
@@ -27,17 +29,9 @@ class Recipe:
             recipe_str += ingredient + '\n'
         recipe_str += '\n     ' + 'Directions' + '     \n'
         recipe_str += '    -' + '----------' + '-    \n'
-        for direction in self.directions:
-            recipe_str += direction + '\n'
-        return recipe_str
+        recipe_str += self.directions
 
-    def get_title_from_href(self, link):
-        # print('get title from href call')
-        # print('link: ' + link)
-        # regex = re.compile('https:\/\/www.allrecipes.com\/recipe\/\d+\/([^/]+)')
-        # print(regex.match(link))
-        # match_obj = regex.match(link)
-        # cap_group = match_obj.group()
-        # print(cap_group)
-        # title = cap_group.replace('-', ' ')
-        return 'temp title'
+        # print(self.ingredients)
+        # print('\n')
+        # print(self.directions)
+        return recipe_str
