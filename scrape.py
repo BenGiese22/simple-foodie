@@ -3,11 +3,13 @@ from bs4 import BeautifulSoup
 from recipe_scrapers import scrape_me
 import requests
 
-all_recipes_base_url = 'https://www.allrecipes.com/recipes/87/everyday-cooking/vegetarian/?page='
-# all_recipes_total_pages = 412
-all_recipes_total_pages = 1
 
 def all_recipes_veg():
+    all_recipes_base_url = 'https://www.allrecipes.com/recipes/87/everyday-cooking/vegetarian/?page='
+    # all_recipes_total_pages = 412
+    all_recipes_total_pages = 1
+
+
     links = recipes = [] # init both lists
 
     for x in range (0, all_recipes_total_pages+1):
@@ -22,8 +24,7 @@ def all_recipes_veg():
         rec = scrape_me(link)
         recipes.append(Recipe(link, rec.title(), rec.ingredients(), rec.instructions()))
 
-    print_write_recipes(recipes)
-
+    return recipes
 
 def check_status_code(page, link):
     if page.status_code is not 200:
@@ -41,7 +42,10 @@ def print_write_recipes(recipes):
     f.close()
 
 def main():
-    all_recipes_veg()
+    recipes = []
+    recipes += all_recipes_veg()
+
+    print_write_recipes(recipes)
 
 if __name__ == "__main__":
     main()

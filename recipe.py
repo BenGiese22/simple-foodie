@@ -35,3 +35,15 @@ class Recipe:
         # print('\n')
         # print(self.directions)
         return recipe_str
+
+    def get_link(self):
+        return self.link
+
+    def get_title(self):
+        return self.title
+
+    def get_ingredients(self):
+        return self.ingredients
+
+    def get_directions(self):
+        return self.directions
