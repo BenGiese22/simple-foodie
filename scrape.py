@@ -9,7 +9,6 @@ def all_recipes_veg():
     # all_recipes_total_pages = 412
     all_recipes_total_pages = 1
 
-
     links = recipes = [] # init both lists
 
     for x in range (0, all_recipes_total_pages+1):
@@ -22,7 +21,7 @@ def all_recipes_veg():
 
     for link in links:
         rec = scrape_me(link)
-        recipes.append(Recipe(link, rec.title(), rec.ingredients(), rec.instructions()))
+        recipes.append(Recipe(link, rec.title(), rec.ingredients(), rec.instructions(), 'allrecipes.com'))
 
     return recipes
 

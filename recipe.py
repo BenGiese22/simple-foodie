@@ -6,8 +6,9 @@ class Recipe:
     title = None
     ingredients = None
     directions = None
+    source = None
 
-    def __init__(self, link, title, ingredients, directions):
+    def __init__(self, link, title, ingredients, directions, source):
         if link is not None:
             self.link = link
 
@@ -19,6 +20,9 @@ class Recipe:
         
         if directions is not None:
             self.directions = directions
+
+        if source is not None:
+            self.source = source
 
     def to_string(self):
         recipe_str = self.link + '     \n\n'
@@ -47,3 +51,6 @@ class Recipe:
 
     def get_directions(self):
         return self.directions
+
+    def get_source(self):
+        return self.source
