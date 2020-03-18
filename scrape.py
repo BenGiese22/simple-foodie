@@ -9,7 +9,8 @@ def all_recipes_veg():
     # all_recipes_total_pages = 412
     all_recipes_total_pages = 1
 
-    links = recipes = [] # init both lists
+    links = [] 
+    recipes = []
 
     for x in range (0, all_recipes_total_pages+1):
         page = requests.get(all_recipes_base_url+str(x))
