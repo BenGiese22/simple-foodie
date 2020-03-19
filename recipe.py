@@ -16,9 +16,11 @@ class Recipe:
             self.title = title
 
         if ingredients is not None:
+            # TODO remove all " and ' in the string using https://stackoverflow.com/questions/11475885/python-replace-regex and [\"\']+ /[\"\']+/g
             self.ingredients = ingredients
         
         if directions is not None:
+            # TODO remove all " and ' in the string using https://stackoverflow.com/questions/11475885/python-replace-regex and [\"\']+ /[\"\']+/g
             self.directions = directions
 
         if source is not None:
