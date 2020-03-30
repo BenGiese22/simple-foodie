@@ -1,4 +1,4 @@
-/.vscode
+/.iscode
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -57,3 +57,7 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# Project-Based Additions
+post_json.txt
+writeout.txt

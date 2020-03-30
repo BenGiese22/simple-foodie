@@ -3,7 +3,9 @@ from bs4 import BeautifulSoup
 from recipe_scrapers import scrape_me
 from datetime import datetime
 import requests
+import json
 
+APP_URL = 'https://simple-foodie-api.herokuapp.com/recipes-api'
 
 def all_recipes_veg():
     all_recipes_base_url = 'https://www.allrecipes.com/recipes/87/everyday-cooking/vegetarian/?page='
@@ -24,6 +26,27 @@ def all_recipes_veg():
     for link in links:
         rec = scrape_me(link)
         recipes.append(Recipe(link, rec.title(), rec.ingredients(), rec.instructions(), 'allrecipes.com'))
+
+    return recipes
+
+def jamie_oliver_veg():
+    jamie_oliver_base_url = 'https://www.jamieoliver.com'
+    html_string = None
+    with open('/raw_html/jamie_oliver_veg.html', 'r') as f:
+        html_string = f.read()
+
+    links = []
+    recipes = []
+
+    if html_string is not None:
+        soup = BeautifulSoup(html_string, 'html.parser')
+        recipe_cards = soup.find_all('div', class_='recipe-block')
+        for recipe in recipe_cards:
+            links.append(jamie_oliver_base_url + recipe.a.get('href'))
+    
+    for link in links:
+        rec = scrape_me(link)
+        recipes.append(Recipe(link, rec.title(), rec.ingredients(), rec.instructions(), 'jamieoliver.com'))
 
     return recipes
 
@@ -71,7 +94,6 @@ def write_json_recipes(recipes):
             f.write('\n')
     f.write(']')
     f.close()
-    
 
 def write_json_object(f, recipe):
     f.write('   {\n')
@@ -83,12 +105,26 @@ def write_json_object(f, recipe):
     f.write('    \"created_date\": \"'+str(datetime.now().isoformat()+'-06:00')+'\"\n') 
     f.write('    }')  
 
+def post_recipe(recipe):
+    payload = {
+        "link": str(recipe.get_link()),
+        "recipe": str(recipe.get_title()),
+        "ingredients": str(recipe.get_ingredients()),
+        "directions": str(recipe.get_directions()),
+        "source": str(recipe.get_source()),
+        "created_date": str(datetime.now().isoformat()+'-06:00')
+    }
+    print(json.dumps(payload))
+    # requests.post(APP_URL, data=json.dumps(payload))
+
 def main():
     recipes = []
-    recipes += all_recipes_veg()
-
-    #print_write_recipes(recipes)
-    write_json_recipes(recipes)
+    # recipes += all_recipes_veg()
+    recipes += jamie_oliver_veg()
+    for recipe in recipes:
+        post_recipe(recipe)
+    # print_write_recipes(recipes)
+    # write_json_recipes(recipes)
 
 if __name__ == "__main__":
     main()
