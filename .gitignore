@@ -61,3 +61,4 @@ target/
 # Project-Based Additions
 post_json.txt
 writeout.txt
+.DS_Store
