@@ -8,13 +8,13 @@ APP_URL = 'https://simple-foodie-api.herokuapp.com/recipes-api/'
 
 def all_recipes_veg():
     all_recipes_base_url = 'https://www.allrecipes.com/recipes/87/everyday-cooking/vegetarian/?page='
-    all_recipes_total_pages = 412
+    all_recipes_total_pages = 10
     # all_recipes_total_pages = 412
 
     links = [] 
     recipes = []
 
-    for x in range (0, all_recipes_total_pages+1):
+    for x in range (5, all_recipes_total_pages+1): #TODO revert
         page = requests.get(all_recipes_base_url+str(x))
         check_status_code(page, all_recipes_base_url+str(x))
         soup = BeautifulSoup(page.content, 'html.parser')
@@ -112,55 +112,20 @@ def post_recipe(recipe):
     hdrs = {
     'Content-Type': 'application/json'
     }
-    # info = {
-    #     "link": str(recipe.get_link()),
-    #     "title": str(recipe.get_title()),
-    #     "ingredients": str(recipe.get_ingredients()),
-    #     "directions": str(recipe.get_directions()),
-    #     "source": str(recipe.get_source()),
-    #     "created_date": str(datetime.now().isoformat()+'-06:00')
-    # }
-    # # print(repr(json.dumps(info)))
-    # dumped = json.dumps(info)
-    # temp = dumped.replace('"', '\\"')
-
-    # info_str = '\"[\r\n    {\r\n    '
-    # info_str += '\\\"link\\\": \\\"' + str(recipe.get_link()) + '\\\",\r\n    '
-    # info_str += '\\\"title\\\": \\\"' + str(recipe.get_title()) + '\\\",\r\n    '
-    # info_str += '\\\"ingredients\\\": \\\"' + str(recipe.get_ingredients()) + '\\\",\r\n    '
-    # info_str += '\\\"directions\\\": \\\"' + str(recipe.get_directions()) + '\\\",\r\n    '
-    # info_str += '\\\"source\\\": \\\"' + str(recipe.get_source()) + '\\\",\r\n    '
-    # info_str += '\\\"created_date\\\": \\\"' + str(datetime.now().isoformat()+'-06:00') + '\\\",\r\n    '
-    # info_str += '}\r\n]\"'
-    # info_str = info_str.replace('/\n/g', "\\n").replace('/\r/g', "\\r").replace('/\t/g', "\\t").replace('/\f/g', "\\f")
-    # print(info_str)
-    # print(json.dumps(info))
-    # payload = '\"['+json.dumps(info).replace('"','\\"')+']\"'
-    # info_str = info_str.replace('\"','\\"')
-    # print(repr(info_str))
-    # response = requests.post(APP_URL, data=json.dumps(info), headers=hdrs)
-
-    # info_str = '"[\r\n   {\r\n    \"link\": \"https://www.allrecipes.com/recipe/16259/ds-famous-salsa/\",\r\n    \"title\": \"D\'s Famous Salsa\",\r\n    \"ingredients\": \"[\'2 (14.5 ounce) cans stewed tomatoes\', '1/2 onion, finely diced', '1 teaspoon minced garlic', '1/2 lime, juiced', '1 teaspoon salt', '1/4 cup canned sliced green chiles, or to taste', '3 tablespoons chopped fresh cilantro']\",\r\n    \"directions\": \"Place the tomatoes, onion, garlic, lime juice, salt, green chiles, and cilantro in a blender or food processor. Blend on low to desired consistency.\",\r\n    \"source\": \"allrecipes.com\",\r\n    \"created_date\": \"2020-04-08T12:24:56.443793-06:00\"\r\n    }\r\n]"' 
-
     payload_str = "[\r\n   {\r\n    \"link\": \"{link}\",\r\n    \"title\": \"{title}\",\r\n    \"ingredients\": \"{ingredients}\",\r\n    \"directions\": \"{directions}\",\r\n    \"source\": \"{source}\",\r\n    \"created_date\": \"{created_date}\"\r\n    }\r\n]"
     created_date = str(datetime.now().isoformat()+'-06:00')
     payload_str = payload_str.replace('{link}', recipe.get_link()).replace('{title}', recipe.get_title()).replace('{ingredients}', str(recipe.get_ingredients())).replace('{directions}', recipe.get_directions()).replace('{source}', recipe.get_source()).replace('{created_date}', created_date)
-    # print(payload_str)
     response = requests.post(APP_URL, data=payload_str, headers=hdrs)
-    # print(resp.json())
     print(response.text.encode('utf8'))
 
 def main():
     recipes = []
     recipes += all_recipes_veg()
     # recipes += jamie_oliver_veg()
-
-    # recipes.append(get_test_recipe())
-    
-    for recipe in recipes:
-        post_recipe(recipe)
     # print_write_recipes(recipes)
     # write_json_recipes(recipes)
+    for recipe in recipes:
+        post_recipe(recipe)
 
 def get_test_recipe():
     link = 'https://www.allrecipes.com/recipe/16259/ds-famous-salsa/'
@@ -172,3 +137,10 @@ def get_test_recipe():
 
 if __name__ == "__main__":
     main()
+
+
+"""
+Test against:
+https://www.allrecipes.com/recipe/13938/connies-zucchini-crab-cakes/
+0xae
+"""
