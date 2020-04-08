@@ -8,8 +8,8 @@ APP_URL = 'https://simple-foodie-api.herokuapp.com/recipes-api/'
 
 def all_recipes_veg():
     all_recipes_base_url = 'https://www.allrecipes.com/recipes/87/everyday-cooking/vegetarian/?page='
-    all_recipes_total_pages = 10
     # all_recipes_total_pages = 412
+    all_recipes_total_pages = 0
 
     links = [] 
     recipes = []
@@ -137,10 +137,3 @@ def get_test_recipe():
 
 if __name__ == "__main__":
     main()
-
-
-"""
-Test against:
-https://www.allrecipes.com/recipe/13938/connies-zucchini-crab-cakes/
-0xae
-"""
