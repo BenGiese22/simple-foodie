@@ -16,7 +16,7 @@ class Recipe:
             self.title = title
 
         if ingredients is not None:
-            self.ingredients = directions.replace('\n', '').replace('\"', '').replace('\'','')
+            self.ingredients = ingredients
         
         if directions is not None:
             self.directions = directions.replace('\n', '').replace('\"', '').replace('\'','')
