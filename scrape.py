@@ -14,13 +14,15 @@ def all_recipes_veg():
     links = [] 
     recipes = []
 
-    for x in range (5, all_recipes_total_pages+1): #TODO revert
+    for x in range (0, all_recipes_total_pages+1):
         page = requests.get(all_recipes_base_url+str(x))
         check_status_code(page, all_recipes_base_url+str(x))
         soup = BeautifulSoup(page.content, 'html.parser')
         recipe_cards = soup.find_all('article', class_='fixed-recipe-card')
         for article in recipe_cards:
             links.append(article.div.a.get('href'))
+
+    links = ['https://www.allrecipes.com/recipe/220661/quinoa-black-bean-burgers/']
 
     for link in links:
         rec = scrape_me(link)
@@ -109,12 +111,10 @@ def write_json_object(f, recipe):
     f.write('    }')  
 
 def post_recipe(recipe):
-    hdrs = {
-    'Content-Type': 'application/json'
-    }
+    hdrs = {'Content-Type': 'application/json'}
     payload_str = "[\r\n   {\r\n    \"link\": \"{link}\",\r\n    \"title\": \"{title}\",\r\n    \"ingredients\": \"{ingredients}\",\r\n    \"directions\": \"{directions}\",\r\n    \"source\": \"{source}\",\r\n    \"created_date\": \"{created_date}\"\r\n    }\r\n]"
     created_date = str(datetime.now().isoformat()+'-06:00')
-    payload_str = payload_str.replace('{link}', recipe.get_link()).replace('{title}', recipe.get_title()).replace('{ingredients}', str(recipe.get_ingredients())).replace('{directions}', recipe.get_directions()).replace('{source}', recipe.get_source()).replace('{created_date}', created_date)
+    payload_str = payload_str.replace('{link}', recipe.get_link()).replace('{title}', recipe.get_title()).replace('{ingredients}', str(recipe.get_ingredients()).replace('\"', '\'')).replace('{directions}', recipe.get_directions()).replace('{source}', recipe.get_source()).replace('{created_date}', created_date)
     response = requests.post(APP_URL, data=payload_str, headers=hdrs)
     print(response.text.encode('utf8'))
 
