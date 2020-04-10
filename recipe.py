@@ -15,6 +15,10 @@ class Recipe:
         if title is not None:
             if '\"' in title:
                 title = title.replace('\"', '*')
+            elif '‘' in title:
+                    title = title.replace('‘', '\'')
+            elif '’' in title:
+                title = title.replace('’', '\'')
             self.title = title
 
         if ingredients is not None:
@@ -54,10 +58,15 @@ class Recipe:
                     ing = ing.replace(',', ';')
                 elif '®' in ing:
                     ing = ing.replace('®', '')
+                elif '‘' in ing:
+                    ing = ing.replace('‘', '\'')
+                elif '’' in ing:
+                    ing = ing.replace('’', '\'')
                 self.ingredients.append(ing)
         
         if directions is not None:
-            self.directions = directions.replace('\n', '').replace('\"', '').replace('\'','')
+            self.directions = directions.replace('\n', '').replace('\"', '').replace('\'', '').replace('’', '\'').replace('‘', '\'').replace('Method ', '').replace(
+                ' Please enable targetting cookies to show this banner if (window.innerWidth <= 10000 && window.innerWidth >= 768) { propertag.cmd.push(function() { proper_display(jamieoliver_leftrail); }); }', '')
 
         if source is not None:
             self.source = source

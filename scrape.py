@@ -10,8 +10,6 @@ def all_recipes_veg():
     all_recipes_base_url = 'https://www.allrecipes.com/recipes/87/everyday-cooking/vegetarian/?page='
     # all_recipes_total_pages = 412
     all_recipes_total_pages = 0
-    
-
     links = [] 
     recipes = []
 
@@ -112,6 +110,7 @@ def post_recipes(recipes):
     file_name = 'post_logs/post_log' + str(datetime.now().isoformat()+'-06:00') + '.txt'
     f = open(file_name, 'w')
     for recipe in recipes:
+        print(recipe.get_link())
         f.write('------------------------\n' + recipe.get_link() + '\n' + post_recipe(recipe) + '\n\n')
     f.close()
 
@@ -120,16 +119,18 @@ def post_recipe(recipe):
     payload_str = "[\r\n   {\r\n    \"link\": \"{link}\",\r\n    \"title\": \"{title}\",\r\n    \"ingredients\": \"{ingredients}\",\r\n    \"directions\": \"{directions}\",\r\n    \"source\": \"{source}\",\r\n    \"created_date\": \"{created_date}\"\r\n    }\r\n]"
     created_date = str(datetime.now().isoformat()+'-06:00')
     payload_str = payload_str.replace('{link}', recipe.get_link()).replace('{title}', recipe.get_title()).replace('{ingredients}', str(recipe.get_ingredients()).replace('\"', '\'')).replace('{directions}', recipe.get_directions()).replace('{source}', recipe.get_source()).replace('{created_date}', created_date)
-    response = requests.post(APP_URL, data=payload_str, headers=hdrs)
-    return response.text
+    try:
+        response = requests.post(APP_URL, data=payload_str.encode('utf-8'), headers=hdrs)
+        return response.text
+    except Exception as ex:
+        return 'Error on: ' + recipe.to_string() + ' | ' + str(ex)
 
 def main():
     recipes = []
-    recipes += all_recipes_veg()
-    # recipes += jamie_oliver_veg()
+    # recipes += all_recipes_veg()
     # print_write_recipes(recipes)
     # write_json_recipes(recipes)
-    post_recipes(recipes)
+    # post_recipes(recipes)
 
 def get_test_recipe():
     link = 'https://www.allrecipes.com/recipe/16259/ds-famous-salsa/'
